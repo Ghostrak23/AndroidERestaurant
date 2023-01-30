@@ -1,39 +1,49 @@
 package fr.isen.albergucci.androiderestaurant
 
-import android.annotation.SuppressLint
 import android.content.Intent
-import android.os.Bundle
-import android.view.View
-import android.widget.Button
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import android.widget.Toast;
-
+import android.os.Bundle
+import android.util.Log
+import android.view.Window
+import android.view.WindowManager
+import android.widget.TextView
+import fr.isen.albergucci.androiderestaurant.databinding.ActivityHomeBinding
 
 class HomeActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityHomeBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
 
-        val entreeButton = findViewById<Button>(R.id.button1)
-        entreeButton.setOnClickListener {
-            val intent = Intent(this, TemplateActivity::class.java)
-            intent.putExtra("category_entrees", "Entrées")
-            startActivity(intent)
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
+        supportActionBar?.hide()
+
+        binding = ActivityHomeBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.homeStarters.setOnClickListener {
+            switchActivity(binding.homeStarters)
         }
 
-        val platButton = findViewById<Button>(R.id.button2)
-        platButton.setOnClickListener {
-            val intent = Intent(this, TemplateActivity::class.java)
-            intent.putExtra("category_plats", "Plats")
-            startActivity(intent)
+        binding.homeMains.setOnClickListener {
+            switchActivity(binding.homeMains)
         }
 
-        val dessertButton = findViewById<Button>(R.id.button3)
-        dessertButton.setOnClickListener {
-            val intent = Intent(this, TemplateActivity::class.java)
-            intent.putExtra("category_desserts", "Desserts")
-            startActivity(intent)
+        binding.homeDesserts.setOnClickListener {
+            switchActivity(binding.homeDesserts)
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("Destroy", "Activity $this has been destroyed")
+    }
+
+    private fun switchActivity(textView: TextView){
+        val intent = Intent(this@HomeActivity, TemplateActivity::class.java)
+        intent.putExtra("titleCategory", textView.text)
+        startActivity(intent)
     }
 }
