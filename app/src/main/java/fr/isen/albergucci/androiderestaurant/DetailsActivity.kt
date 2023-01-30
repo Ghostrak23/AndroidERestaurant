@@ -9,7 +9,6 @@ class DetailsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailsBinding
 
-    private lateinit var dish: Items
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
 
